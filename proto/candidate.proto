@@ -1,0 +1,14 @@
+syntax = "proto3";
+import "job.proto";
+option go_package = "domain";
+
+message CandidateRef {
+    uint64 id = 1;
+}
+
+message Candidate {
+    uint64 id = 1;
+    string firstName = 2;
+    string lastName = 4;
+    repeated Job jobs = 3;
+}

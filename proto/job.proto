@@ -1,0 +1,9 @@
+syntax = "proto3";
+import "google/type/date.proto";
+option go_package = "domain";
+
+message Job {
+    string name = 1;
+    google.type.Date from = 2;
+    google.type.Date to = 3;
+}

@@ -1,0 +1,23 @@
+@import '~@angular/material/theming';
+@import 'src/theme.scss';
+
+@media (max-width: 767px) {
+  /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
+  .body-content {
+    padding-top: 50px;
+  }
+}
+
+$app-backgroung: white;
+$app-text-color: black;
+
+//graphs dark
+@if $main == black {
+  $app-backgroung: #303030;
+  $app-text-color: white;
+}
+
+.app-background {
+  background-color: $app-backgroung;
+  color: $app-text-color
+}

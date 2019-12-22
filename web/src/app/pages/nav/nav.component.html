@@ -1,0 +1,49 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="!(isHandset$ | async)">
+    <mat-toolbar>
+      Menu
+    </mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard"><mat-icon>home</mat-icon>Inicio</a>
+      <mat-list-item routerLink="/candidates"><mat-icon>shuffle</mat-icon>Candidatos</mat-list-item>
+      <mat-nav-list>
+        <a mat-list-item routerLink="/transactions" style="padding-left: 1em"><mat-icon>list</mat-icon>Listado de Candidatos</a>
+{{/*        <a mat-list-item routerLink="/uif-transactions" style="padding-left: 1em"><mat-icon>add_alert</mat-icon>Listado de Transacciones UIF</a>*/}}
+{{/*        <a mat-list-item routerLink="/agent-performances" style="padding-left: 1em"><mat-icon>directions_run</mat-icon>Performance de Agentes</a>*/}}
+{{/*        <a mat-list-item routerLink="/party-usages" style="padding-left: 1em"><mat-icon>transfer_within_a_station</mat-icon>Reporte de Enviadores</a>*/}}
+      </mat-nav-list>
+{{/*      <a mat-list-item routerLink="/billing"><mat-icon>shuffle</mat-icon>Facturacion</a>*/}}
+{{/*      <a mat-list-item routerLink="/promoter-performances"><mat-icon>directions_run</mat-icon>Performance de Remiteros</a>*/}}
+{{/*      <a mat-list-item routerLink="/loyalty"><mat-icon>loyalty</mat-icon>Fidelidad</a>*/}}
+{{/*      <a mat-list-item routerLink="/persons"><mat-icon>account_box</mat-icon>Personas</a>*/}}
+{{/*      <a mat-list-item routerLink="/blacklist"><mat-icon>report</mat-icon>Lista Negra</a>*/}}
+{{/*      <a mat-list-item routerLink="/category-registry"><mat-icon>ballot</mat-icon>Categoria</a>*/}}
+{{/*      <a mat-list-item routerLink="/conciliation"><mat-icon>account_balance</mat-icon>Conciliaciones</a>*/}}
+{{/*      <a mat-list-item routerLink="/bookkeeping"><mat-icon>account_balance</mat-icon>Contabilidad</a>*/}}
+{{/*      <a mat-list-item routerLink="/payers"><mat-icon>account_balance</mat-icon>BBVA Cash Out</a>*/}}
+{{/*      <a mat-list-item routerLink="/identity"><mat-icon>security</mat-icon>Seguridad</a>*/}}
+      <a *ngIf="loggedIn | async" mat-list-item (click)="logout()"><mat-icon>exit_to_app</mat-icon>Salir</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+              type="button"
+              aria-label="Toggle sidenav"
+              mat-icon-button
+              (click)="drawer.toggle()"
+              *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Backoffice</span>
+      <span fxFlex></span>
+      <span>{{ (userData | async)?.name }}</span>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <router-outlet name="toolbar"></router-outlet>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

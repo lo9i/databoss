@@ -2,8 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {catchError, mapTo, tap} from 'rxjs/operators';
-import {config} from "../config";
-import {Tokens} from "@models";
+import {Tokens} from '@models';
+import {config} from '../config';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,13 @@ export class AuthService {
 
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
-  private loggedUser: string;
+  private loggedUser: Observable<string>;
 
   constructor(private http: HttpClient) {
   }
 
   login(user: { username: string, password: string }): Observable<boolean> {
-    return this.http.post<any>(`${config.apiUrl}/login`, user)
+    return this.http.post<any>(`${environment.apiUrl}/login`, user)
       .pipe(
         tap(tokens => this.doLoginUser(user.username, tokens)),
         mapTo(true),
@@ -28,9 +29,9 @@ export class AuthService {
         }));
   }
 
-  logout() {
-    return this.http.post<any>(`${config.apiUrl}/logout`, {
-      'refreshToken': this.getRefreshToken()
+  logout(): Observable<boolean> {
+    return this.http.post<any>(`${environment.apiUrl}/logout`, {
+      refreshToken: this.getRefreshToken()
     }).pipe(
       tap(() => this.doLogoutUser()),
       mapTo(true),
@@ -41,14 +42,20 @@ export class AuthService {
   }
 
   isLoggedIn() {
+    if(!!this.getJwtToken())
+      console.log('logedin');
+    else
+      console.log('NO TOKEN');
+
+    console.log(this.getJwtToken());
     return !!this.getJwtToken();
   }
 
   refreshToken() {
-    return this.http.post<any>(`${config.apiUrl}/refresh`, {
-      'refreshToken': this.getRefreshToken()
+    return this.http.post<any>(`${environment.apiUrl}/refresh`, {
+      refreshToken: this.getRefreshToken()
     }).pipe(tap((tokens: Tokens) => {
-      this.storeJwtToken(tokens.jwt);
+      this.storeJwtToken(tokens.accessToken);
     }));
   }
 
@@ -56,8 +63,12 @@ export class AuthService {
     return localStorage.getItem(this.JWT_TOKEN);
   }
 
+  public getUserData(): Observable<any> {
+    return this.loggedUser;
+  }
+
   private doLoginUser(username: string, tokens: Tokens) {
-    this.loggedUser = username;
+    this.loggedUser = of(username);
     this.storeTokens(tokens);
   }
 
@@ -75,7 +86,7 @@ export class AuthService {
   }
 
   private storeTokens(tokens: Tokens) {
-    localStorage.setItem(this.JWT_TOKEN, tokens.jwt);
+    localStorage.setItem(this.JWT_TOKEN, tokens.accessToken);
     localStorage.setItem(this.REFRESH_TOKEN, tokens.refreshToken);
   }
 

@@ -1,0 +1,120 @@
+.sidenav-container {
+  height: 100%;
+  //position: absolute;
+  //top: 30px;
+}
+
+.mat-sidenav {
+  width: 180px;
+  min-width: 180px;
+}
+
+
+//.sidenav .mat-toolbar {
+//  background: inherit;
+//}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.mat-nav-list {
+
+  .mat-list-item {
+    color: white;
+    font-size: 13px;
+    padding-left: 0;
+    height: auto;
+    line-height: 42px;
+    .mat-icon {
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+      padding-top: 7px;
+      font-size: 13px;
+    }
+  }
+  .mat-list-item:hover{
+    color: #209e91;
+    .mat-icon {
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+      padding-top: 7px;
+      font-size: 13px;
+    }
+  }
+  .active-list-item {
+   background-color: #209e91;
+  }
+  .active-list-item:hover {
+    color: white;
+  }
+}
+
+.search {
+  font-size: 13px;
+  line-height: 25px;
+  -webkit-transition: all .5s ease;
+  transition: all .5s ease;
+  width: 162px;
+  float: left;
+  margin: 0 0 0 30px;
+}
+
+.search .mat-icon {
+  width: 16px;
+  display: inline-block;
+  cursor: pointer;
+  //padding-top: 7px;
+  font-size: 16px;
+  margin-right: 13px;
+  vertical-align: middle;
+}
+.search, a.al-sidebar-list-link {
+  color: #fff;
+  overflow: hidden;
+  text-shadow: none;
+  white-space: nowrap;
+}
+
+input.search-input {
+  margin-left: -8px;
+  padding-left: 8px
+}
+.search label {
+  cursor: pointer
+}
+
+.search input {
+  background: 0 0;
+  border: none;
+  outline: 0;
+  width: 120px;
+  padding: 0;
+  margin: 0 0 0 -3px;
+  height: 27px;
+  color: white;
+  font-size: 14px;
+
+}
+
+.mat-drawer {
+  background-color: #1C2B36;
+  color: white;
+}
+
+.app-name {
+  width: 150px;
+  color: #fff;
+  display: block;
+  font-size: 24px;
+  font-family: Roboto,sans-serif;
+  white-space: nowrap;
+  float: left;
+  line-height: 60px;
+}
+.data-boss-prefix {
+  color: #209e91;
+}
+

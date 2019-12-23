@@ -2,20 +2,22 @@ package controllers
 
 import "github.com/lo9i/databoss/server/middlewares"
 
-func (s *Server) initializeRoutes() {
+func (server *Server) initializeRoutes() {
 
 	// Home Route
-	s.Router.HandleFunc("/", middlewares.SetMiddlewareJSON(s.Home)).Methods("GET")
+	server.Router.HandleFunc("/", middlewares.SetMiddlewareJSON(server.Home)).Methods("GET")
 
 	// Login Route
-	s.Router.HandleFunc("/login", middlewares.SetMiddlewareJSON(s.Login)).Methods("POST")
+	server.Router.HandleFunc("/login", middlewares.SetMiddlewareJSON(server.Login)).Methods("POST")
+	server.Router.HandleFunc("/logout", middlewares.SetMiddlewareJSON(server.Logout)).Methods("POST")
+	server.Router.HandleFunc("/refresh", middlewares.SetMiddlewareJSON(server.Refresh)).Methods("POST")
 
 	//Users routes
-	s.Router.HandleFunc("/users", middlewares.SetMiddlewareJSON(s.CreateUser)).Methods("POST")
-	s.Router.HandleFunc("/users", middlewares.SetMiddlewareJSON(s.GetUsers)).Methods("GET")
-	s.Router.HandleFunc("/users/{id}", middlewares.SetMiddlewareJSON(s.GetUser)).Methods("GET")
-	s.Router.HandleFunc("/users/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.UpdateUser))).Methods("PUT")
+	server.Router.HandleFunc("/users", middlewares.SetMiddlewareJSON(server.CreateUser)).Methods("POST")
+	server.Router.HandleFunc("/users", middlewares.SetMiddlewareJSON(server.GetUsers)).Methods("GET")
+	server.Router.HandleFunc("/users/{id}", middlewares.SetMiddlewareJSON(server.GetUser)).Methods("GET")
+	server.Router.HandleFunc("/users/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(server.UpdateUser))).Methods("PUT")
 
-	s.Router.HandleFunc("/candidates", middlewares.SetMiddlewareJSON(s.GetCandidates)).Methods("GET")
+	server.Router.HandleFunc("/candidates", middlewares.SetMiddlewareJSON(server.GetCandidates)).Methods("GET")
 	//s.Router.HandleFunc("/users/{id}", middlewares.SetMiddlewareAuthentication(s.DeleteUser)).Methods("DELETE")
 }

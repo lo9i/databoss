@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router} from '@angular/router';
 import {AuthService} from '@services';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-unauthorized',
   templateUrl: './unauthorized.component.html',
-  styleUrls: ['./unauthorized.component.css']
+  styleUrls: ['./unauthorized.component.scss']
 })
 
 export class UnauthorizedComponent  implements OnInit {

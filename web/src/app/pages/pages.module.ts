@@ -11,20 +11,21 @@ import {
   MatListModule,
   MatGridListModule,
   MatCardModule,
-  MatMenuModule
+  MatMenuModule, MatInputModule
 } from '@angular/material';
 import {routes} from './pages.routes';
-import {NavComponent} from './nav/nav.component';
-import {LandingComponent} from './landing/landing.component';
-import {UnauthorizedComponent} from './unauthorized/unauthorized.component';
-import {CandidatesModule} from "@pages/candidates/candidates.module";
-import {DashboardModule} from "@pages/dashboard";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {ReactiveFormsModule} from '@angular/forms';
+import {NavComponent} from '@pages/nav/nav.component';
+import {DashboardModule} from '@pages/dashboard';
+import {CandidatesModule} from '@pages/candidates/candidates.module';
+import {LandingComponent} from '@pages/landing/landing.component';
+import {UnauthorizedComponent} from '@pages/unauthorized/unauthorized.component';
 
 @NgModule({
   declarations: [NavComponent, LandingComponent, UnauthorizedComponent],
   imports: [
+    RouterModule.forRoot(routes),
     CommonModule,
     LayoutModule,
     FlexLayoutModule,
@@ -34,10 +35,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
-    RouterModule.forRoot(routes),
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
+    MatInputModule,
     ReactiveFormsModule,
     DashboardModule,
     CandidatesModule

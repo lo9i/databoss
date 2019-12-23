@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/lo9i/databoss/server/domain"
 	"log"
@@ -17,5 +18,8 @@ type Server struct {
 func (server *Server) Run(addr string) {
 	fmt.Println("Listening to port 8080")
 	server.initializeRoutes()
-	log.Fatal(http.ListenAndServe(addr, server.Router))
+	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
+	originsOk := handlers.AllowedOrigins([]string{"*"})
+	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
+	log.Fatal(http.ListenAndServe(addr, handlers.CORS(originsOk, headersOk, methodsOk)(server.Router)))
 }

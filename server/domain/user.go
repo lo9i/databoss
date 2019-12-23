@@ -11,7 +11,7 @@ import (
 
 type User struct {
 	Id        uint32    `gorm:"primary_key;auto_increment" json:"id"`
-	Nickname  string    `gorm:"size:255;not null;unique" json:"nickname"`
+	Username  string    `gorm:"size:255;not null;unique" json:"username"`
 	Email     string    `gorm:"size:100;not null;unique" json:"email"`
 	Password  string    `gorm:"size:100;not null;" json:"password"`
 	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
@@ -52,7 +52,7 @@ func (u *User) BeforeSave() error {
 
 func (u *User) Prepare() {
 	u.Id = 0
-	u.Nickname = html.EscapeString(strings.TrimSpace(u.Nickname))
+	u.Username = html.EscapeString(strings.TrimSpace(u.Username))
 	u.Email = html.EscapeString(strings.TrimSpace(u.Email))
 	u.CreatedAt = time.Now()
 	u.UpdatedAt = time.Now()
@@ -61,44 +61,41 @@ func (u *User) Prepare() {
 func (u *User) Validate(action string) error {
 	switch strings.ToLower(action) {
 	case "update":
-		if u.Nickname == "" {
-			return errors.New("Required Nickname")
+		if u.Username == "" {
+			return errors.New("El nombre de usuario es necesario")
 		}
 		if u.Password == "" {
-			return errors.New("Required Password")
+			return errors.New("La clave es necesaria")
 		}
 		if u.Email == "" {
-			return errors.New("Required Email")
+			return errors.New("La dirección de correo es necesaria")
 		}
 		if err := checkmail.ValidateFormat(u.Email); err != nil {
-			return errors.New("Invalid Email")
+			return errors.New("La dirección de correo es inválida")
 		}
 
 		return nil
 	case "login":
 		if u.Password == "" {
-			return errors.New("Required Password")
+			return errors.New("La clave es necesaria")
 		}
-		if u.Email == "" {
-			return errors.New("Required Email")
-		}
-		if err := checkmail.ValidateFormat(u.Email); err != nil {
-			return errors.New("Invalid Email")
+		if u.Username == "" {
+			return errors.New("El nombre de usuario es necesario")
 		}
 		return nil
 
 	default:
-		if u.Nickname == "" {
-			return errors.New("Required Nickname")
+		if u.Username == "" {
+			return errors.New("El nombre de usuario es necesario")
 		}
 		if u.Password == "" {
-			return errors.New("Required Password")
+			return errors.New("La clave es necesaria")
 		}
 		if u.Email == "" {
-			return errors.New("Required Email")
+			return errors.New("La dirección de correo es necesaria")
 		}
 		if err := checkmail.ValidateFormat(u.Email); err != nil {
-			return errors.New("Invalid Email")
+			return errors.New("La dirección de correo es inválida")
 		}
 		return nil
 	}

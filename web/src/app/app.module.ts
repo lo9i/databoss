@@ -8,7 +8,8 @@ import {HttpClientModule} from '@angular/common/http';
 
 import {AppComponent} from './app.component';
 import {PagesModule} from '@pages';
-import {AuthGuardService, AuthService, ServicesModule} from '@services';
+import {ServicesModule} from '@services';
+import {UtilsModule} from '@utils';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import {AuthGuardService, AuthService, ServicesModule} from '@services';
     FlexLayoutModule,
     HttpClientModule,
     ServicesModule,
+    UtilsModule,
     PagesModule,
     NgxSpinnerModule,
   ],

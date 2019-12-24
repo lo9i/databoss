@@ -6,10 +6,13 @@ import (
 	"github.com/lo9i/databoss/server/domain"
 )
 
-func NewServer(uService domain.UserService, cService domain.CandidateService) *controllers.Server {
+func NewServer(uService domain.UserService,
+				cService domain.CandidateService,
+				jService domain.JobService) *controllers.Server {
 	return &controllers.Server{
 		UserService:      uService,
 		CandidateService: cService,
+		JobService: jService,
 		Router:           mux.NewRouter(),
 	}
 }

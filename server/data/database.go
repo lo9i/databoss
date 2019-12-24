@@ -45,6 +45,7 @@ type DatabaseImpl struct {
 
 func (d *DatabaseImpl) AutoMigrate() {
 	d.Db.AutoMigrate(&domain.Candidate{})
+	d.Db.AutoMigrate(&domain.NosisUser{})
 	d.Db.AutoMigrate(&domain.User{})
 	d.Db.AutoMigrate(&domain.Job{})
 }
@@ -58,8 +59,11 @@ func (d *DatabaseImpl) Commit() {
 }
 
 func (d *DatabaseImpl) Find(out interface{}, where ...interface{}) Database {
-	d.Db.Find(out)
-	//d.Db.Where(where).Find(out)
+	if len(where) > 0 && where[0] != nil {
+		d.Db.Where(where).Find(out)
+	} else {
+		d.Db.Find(out)
+	}
 	return d
 }
 

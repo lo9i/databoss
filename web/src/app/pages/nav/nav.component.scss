@@ -1,18 +1,11 @@
 .sidenav-container {
   height: 100%;
-  //position: absolute;
-  //top: 30px;
 }
 
 .mat-sidenav {
   width: 180px;
   min-width: 180px;
 }
-
-
-//.sidenav .mat-toolbar {
-//  background: inherit;
-//}
 
 .mat-toolbar.mat-primary {
   position: sticky;
@@ -59,14 +52,15 @@
   transition: all .5s ease;
   width: 162px;
   float: left;
-  margin: 0 0 0 30px;
+  padding-top: 5px;
+  margin: 0 0 0 15px;
 }
 
 .search .mat-icon {
   width: 16px;
   display: inline-block;
   cursor: pointer;
-  //padding-top: 7px;
+  padding-top: 5px;
   font-size: 16px;
   margin-right: 13px;
   vertical-align: middle;
@@ -76,6 +70,24 @@
   overflow: hidden;
   text-shadow: none;
   white-space: nowrap;
+}
+#searchInput {
+  color: white;
+  text-align: right;
+}
+
+#searchInput::-webkit-input-placeholder { /* Edge */
+  color: gray;
+  text-align: left;
+}
+
+#searchInput:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: gray;
+  text-align: left;
+}
+
+#searchInput::placeholder {
+  color: gray;
 }
 
 input.search-input {
@@ -99,6 +111,16 @@ input.search-input {
 
 }
 
+.questions-section {
+  font-size: 13px;
+  position: absolute;
+  right: 10px;
+  font-weight:300;
+}
+
+.questions-section a{
+  color: rgb(32, 158, 145);
+}
 .mat-drawer {
   background-color: #1C2B36;
   color: white;

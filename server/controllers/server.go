@@ -13,6 +13,7 @@ type Server struct {
 	Router           *mux.Router
 	UserService      domain.UserService
 	CandidateService domain.CandidateService
+	JobService       domain.JobService
 }
 
 func (server *Server) Run(addr string) {

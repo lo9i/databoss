@@ -20,18 +20,29 @@ func NewDatabaseConfiguration() data.DatabaseConfiguration {
 	}
 }
 
+func NewNosisApiConfiguration() domain.NosisApiConfiguration {
+	return domain.NosisApiConfiguration{
+		BaseURL: "https://ws01.nosis.com/api",
+		User:     "62450",
+		Group:     "1",
+		Password: "179281",
+	}
+}
 func BuildContainer() *dig.Container {
 	container := dig.New()
 
 	container.Provide(NewDatabaseConfiguration)
+	container.Provide(NewNosisApiConfiguration)
 	container.Provide(data.NewDatabase)
 	container.Provide(data.NewUnitOfWork)
 	container.Provide(repositories.NewCandidateRepository)
+	container.Provide(repositories.NewJobRepository)
 	container.Provide(repositories.NewUserRepository)
+	container.Provide(repositories.NewNosisUserRepository)
 	container.Provide(services.NewUserService)
 	container.Provide(services.NewCandidateService)
-	//container.Provide(services.NewStellarKeyPairService)
-	//container.Provide(services.NetStellarNetworkService)
+	container.Provide(services.NewJobService)
+	container.Provide(services.NewNosisService)
 
 	return container
 }
@@ -39,8 +50,10 @@ func BuildContainer() *dig.Container {
 func main() {
 	fmt.Println("Starting")
 	container := BuildContainer()
-	err := container.Invoke(func(uService domain.UserService, cService domain.CandidateService) {
-		server := NewServer(uService, cService)
+	err := container.Invoke(func(uService domain.UserService,
+								cService domain.CandidateService,
+								jService domain.JobService) {
+		server := NewServer(uService, cService, jService)
 		server.Run("0.0.0.0:8080")
 		//err := server.Run("")
 		//if err != nil {

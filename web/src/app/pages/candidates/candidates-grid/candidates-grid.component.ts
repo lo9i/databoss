@@ -1,23 +1,30 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {GridOptions} from 'ag-grid-community';
 import {CandidatesService} from '@services';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ClickableParentComponent} from '../../../utils/clickable-parent/clickable-parent.component';
 
 @Component({
   selector: 'app-candidates-grid',
   templateUrl: './candidates-grid.component.html',
   styleUrls: ['./candidates-grid.component.scss']
 })
-export class CandidatesGridComponent {
+export class CandidatesGridComponent implements OnInit {
   public gridOptions: GridOptions;
+  searchText: string;
 
-  constructor(private service: CandidatesService) {
+  constructor(private route: ActivatedRoute, private router: Router, private service: CandidatesService) {
     this.gridOptions = {
       columnDefs: [
-        {headerName: 'Id', field: 'id', pinned: 'left', maxWidth: 80, resizable: false},
+        {headerName: 'Id', field: 'id', pinned: 'left', maxWidth: 180, resizable: false,  cellRendererFramework: ClickableParentComponent,
+          cellRendererParams: {
+            onClicked: this.detail.bind(this),
+            btnClass: 'primary',
+            label: 'Detalle'
+          }},
         {headerName: 'Nombre', field: 'firstName'},
         {headerName: 'Apellido', field: 'lastName'},
       ],
-      groupDefaultExpanded: -1,
       defaultColDef: {
         resizable: true,
         filter: true,
@@ -32,15 +39,20 @@ export class CandidatesGridComponent {
     this.fetchRows();
   }
 
-  autoSizeAll() {
-    this.gridOptions.api.sizeColumnsToFit();
+  ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      this.searchText = this.route.snapshot.queryParamMap.get('userId');
+    });
   }
-
   public fetchRows() {
-    this.service.getCandidates().
+    this.service.getCandidates(this.searchText).
     subscribe(data => {
       this.gridOptions.rowData = data;
-      setTimeout(() => this.autoSizeAll(), 0);
+      setTimeout(() => this.gridOptions.api.sizeColumnsToFit(), 0);
     });
+  }
+
+  detail(cell) {
+    this.router.navigate(['/candidate-detail/' + cell.row ]);
   }
 }

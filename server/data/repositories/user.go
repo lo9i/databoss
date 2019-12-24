@@ -27,7 +27,7 @@ func (r UserRepositoryImpl) GetById(id uint64) *domain.User {
 
 func (r UserRepositoryImpl) FindOneUser(where ...interface{}) *domain.User {
 	var user domain.User
-	r.UnitOfWork.Database().Find(&user, where)
+	r.UnitOfWork.Database().Find(&user, where...)
 	return &user
 }
 

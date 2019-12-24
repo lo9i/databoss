@@ -15,7 +15,7 @@ import {
 } from '@angular/material';
 import {routes} from './pages.routes';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NavComponent} from '@pages/nav/nav.component';
 import {DashboardModule} from '@pages/dashboard';
 import {CandidatesModule} from '@pages/candidates/candidates.module';
@@ -28,6 +28,7 @@ import {UnauthorizedComponent} from '@pages/unauthorized/unauthorized.component'
     RouterModule.forRoot(routes),
     CommonModule,
     LayoutModule,
+    FormsModule,
     FlexLayoutModule,
     MatToolbarModule,
     MatButtonModule,
@@ -41,7 +42,7 @@ import {UnauthorizedComponent} from '@pages/unauthorized/unauthorized.component'
     MatInputModule,
     ReactiveFormsModule,
     DashboardModule,
-    CandidatesModule
+    CandidatesModule,
   ],
   exports: [RouterModule]
 })

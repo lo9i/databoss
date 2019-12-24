@@ -3,7 +3,9 @@
   <button mat-icon-button (click)="drawer.toggle()">
     <mat-icon>menu</mat-icon>
   </button>
-  <div class="search"><mat-icon ng-click="startSearch()">search</mat-icon> <input id="searchInput" type="text" placeholder="Buscar..."></div>
+  <div class="search"><mat-icon ng-click="startSearch()">search</mat-icon>
+    <input matInput id="searchInput" type="text" placeholder="Buscar..." [(ngModel)]="searchText" autocomplete="off" (keydown)="onKeydown($event)"></div>
+    <div class="questions-section">Have questions? <a href="mailto:contact@akveo.com">contact@akveo.com</a></div>
 </mat-toolbar>
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport="false" class="primary"

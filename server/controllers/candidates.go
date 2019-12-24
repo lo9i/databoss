@@ -47,11 +47,18 @@ import (
 //}
 
 func (server *Server) GetCandidates(w http.ResponseWriter, r *http.Request) {
-	candidates := server.CandidateService.Find()
+	userId := r.URL.Query().Get("userId")
+	var candidates *[]domain.Candidate
+	_, err := strconv.ParseUint(userId, 10, 32)
+	if err != nil {
+		candidates = server.CandidateService.Find()
+	} else {
+		candidates = server.CandidateService.Find("userId = ?", userId)
+	}
 	responses.JSON(w, http.StatusOK, candidates)
 }
 
-func (server *Server) GetCandidate(w http.ResponseWriter, r *http.Request) {
+func (server *Server) GetCandidateById(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
 	uid, err := strconv.ParseUint(vars["id"], 10, 32)
@@ -59,13 +66,20 @@ func (server *Server) GetCandidate(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusBadRequest, err)
 		return
 	}
-	//candidateGotten, err := server.CandidateService.Get(uint64(uid))
-	//if err != nil {
-	//	responses.ERROR(w, http.StatusBadRequest, err)
-	//	return
-	//}
-	candidateGotten := server.CandidateService.Get(uint64(uid))
-	responses.JSON(w, http.StatusOK, candidateGotten)
+	candidate := server.CandidateService.Get(uid)
+	responses.JSON(w, http.StatusOK, candidate)
+}
+
+func (server *Server) GetCandidateByUserId(w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	uid, err := strconv.ParseUint(vars["id"], 10, 32)
+	if err != nil {
+		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
+	candidate := server.CandidateService.GetByUserId(uid)
+	responses.JSON(w, http.StatusOK, candidate)
 }
 
 func (server *Server) UpdateCandidate(w http.ResponseWriter, r *http.Request) {

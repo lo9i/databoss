@@ -5,6 +5,7 @@ import {UnauthorizedComponent} from './unauthorized/unauthorized.component';
 import {CandidatesGridComponent} from './candidates/candidates-grid/candidates-grid.component';
 import {AuthGuardService} from '@services';
 import {DashboardLayoutComponent} from '@pages/dashboard';
+import {CandidateDetailComponent} from '@pages/candidates/candidate-detail/candidate-detail.component';
 
 export const routes: Routes = [{
   path: 'landing',
@@ -28,6 +29,14 @@ export const routes: Routes = [{
   children: [{
     path: '',
     component: CandidatesGridComponent
+  }]
+}, {
+  path: 'candidate-detail/:id',
+  component: NavComponent,
+  canActivate: [AuthGuardService],
+  children: [{
+    path: '',
+    component: CandidateDetailComponent
   }]
 },
   {

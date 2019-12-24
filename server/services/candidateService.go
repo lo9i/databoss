@@ -1,79 +1,98 @@
 package services
 
 import (
+	"encoding/json"
 	"github.com/lo9i/databoss/server/data/repositories"
 	"github.com/lo9i/databoss/server/domain"
+	"strconv"
+	"time"
 )
 
 type CandidateServiceImpl struct {
-	Repository repositories.CandidateRepository
+	Repository      repositories.CandidateRepository
+	NosisRepository repositories.NosisUserRepository
+	NosisService    domain.NosisService
 }
 
-func NewCandidateService(repository repositories.CandidateRepository) domain.CandidateService {
-	return &CandidateServiceImpl{Repository: repository}
-}
-
-func (s *CandidateServiceImpl) Save(u *domain.Candidate) (*domain.Candidate, error) {
-
-	//var err errore
-	//err = s.Repository.Insert(u)
-	//if err != nil {
-	//	return &domain.Candidate{}, err
-	//}
-	return u, nil
+func NewCandidateService(repository repositories.CandidateRepository, nRepository repositories.NosisUserRepository,
+	nService domain.NosisService) domain.CandidateService {
+	return &CandidateServiceImpl{Repository: repository, NosisRepository: nRepository, NosisService: nService}
 }
 
 func (s *CandidateServiceImpl) Get(id uint64) *domain.Candidate {
 	return s.Repository.Get(id)
 }
 
-func (s *CandidateServiceImpl) Find(where ...interface{}) *[]domain.Candidate {
-	return s.Repository.Find(where)
+func (s *CandidateServiceImpl) GetByUserId(userId uint64) *domain.Candidate {
+	candidate := s.Repository.Get(userId)
+	if candidate == nil {
+		candidate = s.CreateCandidate(userId)
+	}
+	return candidate
 }
 
-//func (u *Candidate) Find() (*[]Candidate, error) {
-//	var err error
-//	var users []Candidate
-//	err = db.Debug().Model(&Candidate{}).Limit(100).Find(&users).Error
-//	if err != nil {
-//		return &[]Candidate{}, err
-//	}
-//	return &users, err
-//}
-//
-//func (u *Candidate) UpdateACandidate(repository repositories.CandidateRepository, uid uint32) (*Candidate, error) {
-//
-//	// To hash the password
-//	err := u.BeforeSave()
-//	if err != nil {
-//		log.Fatal(err)
-//	}
-//	db = repository.Update
-//	//.Debug().Model(&Candidate{}).Where("id = ?", uid).Take(&Candidate{}).UpdateColumns(
-//	//	map[string]interface{}{
-//	//		"password":  u.Password,
-//	//		"nickname":  u.Nickname,
-//	//		"email":     u.Email,
-//	//		"update_at": time.Now(),
-//	//	},
-//	//)
-//	if db.Error != nil {
-//		return &Candidate{}, db.Error
-//	}
-//	// This is the display the updated user
-//	err = db.Debug().Model(&Candidate{}).Where("id = ?", uid).Take(&u).Error
-//	if err != nil {
-//		return &Candidate{}, err
-//	}
-//	return u, nil
-//}
-//
-//func (u *Candidate) DeleteACandidate(db *gorm.DB, uid uint32) (int64, error) {
-//
-//	db = db.Debug().Model(&Candidate{}).Where("id = ?", uid).Take(&Candidate{}).Delete(&Candidate{})
-//
-//	if db.Error != nil {
-//		return 0, db.Error
-//	}
-//	return db.RowsAffected, nil
-//}
+func (s *CandidateServiceImpl) CreateCandidate(userId uint64) *domain.Candidate {
+	nosisResponse, err := s.NosisService.Get(userId)
+	if err != nil {
+		return &domain.Candidate{}
+	}
+	b, err := json.Marshal(nosisResponse)
+	if err != nil {
+		return &domain.Candidate{}
+	}
+
+	nosisUser := domain.NosisUser{Raw: string(b)}
+	s.NosisRepository.Insert(&nosisUser)
+	candidate := &domain.Candidate{UserId: string(userId), NosisUser: nosisUser}
+
+	populateCandidate(nosisResponse, candidate)
+	s.Repository.Insert(candidate)
+	return candidate
+}
+
+func populateCandidate(nosisCandidate *domain.NosisResponse, candidate *domain.Candidate) {
+	firstname := nosisCandidate.Get("VI_RazonSocial")
+	lastname := nosisCandidate.Get("VI_RazonSocial")
+	birthStr := nosisCandidate.Get("VI_FecNacimiento")
+	birth, err := time.Parse("2006-12-31", birthStr)
+	if err != nil {
+	}
+	male := nosisCandidate.Get("VI_Sexo") == "M"
+
+	phoneNumber := nosisCandidate.Get("VI_Tel1_Nro")
+
+	street := nosisCandidate.Get("VI_DomAF_Calle")
+	numberStr := nosisCandidate.Get("VI_DomAF_Nro")
+	var number int
+	if numberStr != "" {
+		number, _ = strconv.Atoi(numberStr)
+	}
+	floorStr := nosisCandidate.Get("VI_DomAF_Piso")
+	var floor int
+	if floorStr != "" {
+		floor, _ = strconv.Atoi(floorStr)
+	}
+
+	department := nosisCandidate.Get("VI_DomAF_Dto")
+	city := nosisCandidate.Get("VI_DomAF_Loc")
+	state := nosisCandidate.Get("VI_DomAF_Prov")
+	zipCode := nosisCandidate.Get("VI_DomAF_CP")
+
+	candidate.FirstName = firstname
+	candidate.LastName = lastname
+	candidate.BirthDate = birth
+	candidate.Male = male
+	candidate.PhoneNumber = phoneNumber
+	candidate.Street = street
+	candidate.Number = number
+	candidate.Floor = floor
+	candidate.Department = department
+	candidate.City = city
+	candidate.State = state
+	candidate.ZipCode = zipCode
+	//candidate.Jobs = nil
+}
+
+func (s *CandidateServiceImpl) Find(where ...interface{}) *[]domain.Candidate {
+	return s.Repository.Find(where...)
+}

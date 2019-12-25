@@ -31,7 +31,7 @@ export const routes: Routes = [{
     component: CandidatesGridComponent
   }]
 }, {
-  path: 'candidate-detail/:id',
+  path: 'candidate-detail/:userId',
   component: NavComponent,
   canActivate: [AuthGuardService],
   children: [{

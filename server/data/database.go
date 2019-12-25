@@ -60,10 +60,9 @@ func (d *DatabaseImpl) Commit() {
 
 func (d *DatabaseImpl) Find(out interface{}, where ...interface{}) Database {
 	if len(where) > 0 && where[0] != nil {
-		d.Db.Where(where).Find(out)
-	} else {
-		d.Db.Find(out)
+		d.Db.Where(where)
 	}
+	d.Db.Find(out)
 	return d
 }
 

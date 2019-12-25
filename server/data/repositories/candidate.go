@@ -7,7 +7,7 @@ import (
 
 type CandidateRepository interface {
 	Get(id uint64) *domain.Candidate
-	GetByUserId(id uint64) *domain.Candidate
+	GetByUserId(id string) *domain.Candidate
 	Insert(account *domain.Candidate)
 	Find(where ...interface{}) *[]domain.Candidate
 }
@@ -26,7 +26,7 @@ func (r *CandidateRepositoryImpl) Get(id uint64) *domain.Candidate {
 	return &candidate
 }
 
-func (r *CandidateRepositoryImpl) GetByUserId(id uint64) *domain.Candidate {
+func (r *CandidateRepositoryImpl) GetByUserId(id string) *domain.Candidate {
 	var candidate domain.Candidate
 	r.UnitOfWork.Database().Find(&candidate, "userId=?", id)
 	return &candidate

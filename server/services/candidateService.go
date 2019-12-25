@@ -23,15 +23,15 @@ func (s *CandidateServiceImpl) Get(id uint64) *domain.Candidate {
 	return s.Repository.Get(id)
 }
 
-func (s *CandidateServiceImpl) GetByUserId(userId uint64) *domain.Candidate {
-	candidate := s.Repository.Get(userId)
-	if candidate == nil {
+func (s *CandidateServiceImpl) GetByUserId(userId string) *domain.Candidate {
+	candidate := s.Repository.GetByUserId(userId)
+	if candidate.Id <= 0 {
 		candidate = s.CreateCandidate(userId)
 	}
 	return candidate
 }
 
-func (s *CandidateServiceImpl) CreateCandidate(userId uint64) *domain.Candidate {
+func (s *CandidateServiceImpl) CreateCandidate(userId string) *domain.Candidate {
 	nosisResponse, err := s.NosisService.Get(userId)
 	if err != nil {
 		return &domain.Candidate{}
@@ -41,12 +41,12 @@ func (s *CandidateServiceImpl) CreateCandidate(userId uint64) *domain.Candidate 
 		return &domain.Candidate{}
 	}
 
-	nosisUser := domain.NosisUser{Raw: string(b)}
-	s.NosisRepository.Insert(&nosisUser)
-	candidate := &domain.Candidate{UserId: string(userId), NosisUser: nosisUser}
-
+	candidate := &domain.Candidate{UserId: userId}
 	populateCandidate(nosisResponse, candidate)
 	s.Repository.Insert(candidate)
+	nosisUser := domain.NosisUser{Raw: string(b), CandidateId: candidate.Id}
+	s.NosisRepository.Insert(&nosisUser)
+
 	return candidate
 }
 
@@ -54,7 +54,7 @@ func populateCandidate(nosisCandidate *domain.NosisResponse, candidate *domain.C
 	firstname := nosisCandidate.Get("VI_RazonSocial")
 	lastname := nosisCandidate.Get("VI_RazonSocial")
 	birthStr := nosisCandidate.Get("VI_FecNacimiento")
-	birth, err := time.Parse("2006-12-31", birthStr)
+	birth, err := time.Parse("2006-01-02", birthStr)
 	if err != nil {
 	}
 	male := nosisCandidate.Get("VI_Sexo") == "M"

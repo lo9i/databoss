@@ -20,8 +20,7 @@ type Candidate struct {
 	ZipCode    string `gorm:"size:10;null" json:"zipCode,omitempty"`
 	State      string `gorm:"size:255;null" json:"state,omitempty"`
 
-	Jobs            []*Job    `gorm:"foreignkey:CandidateId;association_foreignkey:Id" json:"jobs,omitempty"`
-	NosisUser       NosisUser `gorm:"foreignkey:NosisUserId;association_foreignkey:Id" json:"ignore"`
+	Jobs            []*Job    `gorm:"foreignkey:CandidateId" json:"jobs,omitempty"`
 	BirthDate       time.Time `gorm:"not null" json:"birthDate"`
 	LastRetrievedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"lastRetrievedAt"`
 	CreatedAt       time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
@@ -35,7 +34,7 @@ type CandidateService interface {
 	 */
 	Get(id uint64) *Candidate
 
-	GetByUserId(id uint64) *Candidate
+	GetByUserId(userId string) *Candidate
 
 	/*
 	 * Get list of users by some criteria

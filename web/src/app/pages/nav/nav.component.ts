@@ -38,19 +38,11 @@ export class NavComponent {
   }
 
   startSearch() {
-    if (this.router.url.startsWith('/candidates')) {
+    if (this.router.url.startsWith('/candidate-detail')) {
       this.router.navigateByUrl('/', {skipLocationChange: true})
-        .then(() => this.router.navigate(['/candidates'], {
-          queryParams: {
-            userId: this.searchText
-          }
-        }));
+        .then(() => this.router.navigate(['/candidate-detail/' + this.searchText]));
     } else {
-      this.router.navigate(['/candidates'], {
-        queryParams: {
-          userId: this.searchText
-        }
-      });
+      this.router.navigate(['/candidate-detail/' + this.searchText]);
     }
   }
 }

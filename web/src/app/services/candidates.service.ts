@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
-import {Candidate} from '@models/candidates';
+import {Candidate, Job} from '@models/candidates';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable({
@@ -20,7 +20,15 @@ export class CandidatesService {
     return this.http.get<Array<Candidate>>(url);
   }
 
-  getCandidate(id: string): Observable<Candidate> {
+  getCandidateById(id: string): Observable<Candidate> {
+    return this.http.get<Candidate>(`${environment.apiUrl}/candidates/${id}/detail`);
+  }
+
+  getCandidateByUserId(id: string): Observable<Candidate> {
     return this.http.get<Candidate>(`${environment.apiUrl}/candidates/${id}`);
+  }
+
+  getCandidateJobs(id: string): Observable<Array<Job>> {
+    return this.http.get<Array<Job>>(`${environment.apiUrl}/candidates/${id}/jobs`);
   }
 }

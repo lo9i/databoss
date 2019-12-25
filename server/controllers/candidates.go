@@ -1,13 +1,9 @@
 package controllers
 
 import (
-	"encoding/json"
-	"errors"
-	"github.com/lo9i/databoss/server/auth"
+	"fmt"
 	"github.com/lo9i/databoss/server/domain"
 	"github.com/lo9i/databoss/server/responses"
-	"github.com/lo9i/databoss/server/utils/formaterror"
-	"io/ioutil"
 	"net/http"
 	"strconv"
 
@@ -73,57 +69,77 @@ func (server *Server) GetCandidateById(w http.ResponseWriter, r *http.Request) {
 func (server *Server) GetCandidateByUserId(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
-	uid, err := strconv.ParseUint(vars["id"], 10, 32)
-	if err != nil {
-		responses.ERROR(w, http.StatusBadRequest, err)
+	userId := vars["userId"]
+	if userId == "" {
+		responses.ERROR(w, http.StatusBadRequest, fmt.Errorf("El identificador del candidato es necesario"))
 		return
 	}
-	candidate := server.CandidateService.GetByUserId(uid)
+	candidate := server.CandidateService.GetByUserId(userId)
 	responses.JSON(w, http.StatusOK, candidate)
 }
 
-func (server *Server) UpdateCandidate(w http.ResponseWriter, r *http.Request) {
+func (server *Server) GetCandidateJobs(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
-	uid, err := strconv.ParseUint(vars["id"], 10, 32)
+	userId := vars["userId"]
+	if userId == "" {
+		responses.ERROR(w, http.StatusBadRequest, fmt.Errorf("El identificador del candidato es necesario"))
+		return
+	}
+
+	uid, err := strconv.ParseUint(userId, 10, 32)
 	if err != nil {
 		responses.ERROR(w, http.StatusBadRequest, err)
 		return
 	}
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		responses.ERROR(w, http.StatusUnprocessableEntity, err)
-		return
-	}
-	candidate := domain.Candidate{}
-	err = json.Unmarshal(body, &candidate)
-	if err != nil {
-		responses.ERROR(w, http.StatusUnprocessableEntity, err)
-		return
-	}
-	tokenID, err := auth.ExtractTokenID(r)
-	if err != nil {
-		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
-		return
-	}
-	if tokenID != uint32(uid) {
-		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
-		return
-	}
-	//candidate.Prepare()
-	//err = candidate.Validate("update")
-	//if err != nil {
-	//	responses.ERROR(w, http.StatusUnprocessableEntity, err)
-	//	return
-	//}
-	updatedCandidate, err := server.CandidateService.Save(&candidate)
-	if err != nil {
-		formattedError := formaterror.FormatError(err.Error())
-		responses.ERROR(w, http.StatusInternalServerError, formattedError)
-		return
-	}
-	responses.JSON(w, http.StatusOK, updatedCandidate)
+
+	candidate := server.JobService.FindByUserId(uid)
+	responses.JSON(w, http.StatusOK, candidate)
 }
+
+//
+//func (server *Server) UpdateCandidate(w http.ResponseWriter, r *http.Request) {
+//
+//	vars := mux.Vars(r)
+//	uid, err := strconv.ParseUint(vars["id"], 10, 32)
+//	if err != nil {
+//		responses.ERROR(w, http.StatusBadRequest, err)
+//		return
+//	}
+//	body, err := ioutil.ReadAll(r.Body)
+//	if err != nil {
+//		responses.ERROR(w, http.StatusUnprocessableEntity, err)
+//		return
+//	}
+//	candidate := domain.Candidate{}
+//	err = json.Unmarshal(body, &candidate)
+//	if err != nil {
+//		responses.ERROR(w, http.StatusUnprocessableEntity, err)
+//		return
+//	}
+//	tokenID, err := auth.ExtractTokenID(r)
+//	if err != nil {
+//		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
+//		return
+//	}
+//	if tokenID != uint32(uid) {
+//		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
+//		return
+//	}
+//	//candidate.Prepare()
+//	//err = candidate.Validate("update")
+//	//if err != nil {
+//	//	responses.ERROR(w, http.StatusUnprocessableEntity, err)
+//	//	return
+//	//}
+//	//updatedCandidate, err := server.CandidateService.Save(&candidate)
+//	if err != nil {
+//		formattedError := formaterror.FormatError(err.Error())
+//		responses.ERROR(w, http.StatusInternalServerError, formattedError)
+//		return
+//	}
+//	responses.JSON(w, http.StatusOK, updatedCandidate)
+//}
 
 //func (server *Server) DeleteCandidate(w http.ResponseWriter, r *http.Request) {
 //

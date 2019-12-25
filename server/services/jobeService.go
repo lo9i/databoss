@@ -13,34 +13,23 @@ func NewJobService(repository repositories.JobRepository) domain.JobService {
 	return &JobServiceImpl{Repository: repository}
 }
 
-func (s *JobServiceImpl) Save(u *domain.Job) (*domain.Job, error) {
-
-	//var err errore
-	//err = s.Repository.Insert(u)
-	//if err != nil {
-	//	return &domain.Job{}, err
-	//}
-	return u, nil
+func (s *JobServiceImpl) Save(j *domain.Job) *domain.Job {
+	s.Repository.Insert(j)
+	return j
 }
 
 func (s *JobServiceImpl) Get(id uint64) *domain.Job {
 	return s.Repository.Get(id)
 }
 
+func (s *JobServiceImpl) FindByUserId(id uint64) *[]domain.Job {
+	return s.Repository.Find("CandidateId = ? ", id)
+}
+
 func (s *JobServiceImpl) Find(where ...interface{}) *[]domain.Job {
 	return s.Repository.Find(where...)
 }
 
-//func (u *Job) Find() (*[]Job, error) {
-//	var err error
-//	var users []Job
-//	err = db.Debug().Model(&Job{}).Limit(100).Find(&users).Error
-//	if err != nil {
-//		return &[]Job{}, err
-//	}
-//	return &users, err
-//}
-//
 //func (u *Job) UpdateAJob(repository repositories.JobRepository, uid uint32) (*Job, error) {
 //
 //	// To hash the password

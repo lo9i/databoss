@@ -16,7 +16,7 @@ export class CandidatesGridComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private service: CandidatesService) {
     this.gridOptions = {
       columnDefs: [
-        {headerName: 'Id', field: 'id', pinned: 'left', maxWidth: 180, resizable: false,  cellRendererFramework: ClickableParentComponent,
+        {headerName: 'CUIL/T', field: 'userId', pinned: 'left', maxWidth: 180, resizable: false,  cellRendererFramework: ClickableParentComponent,
           cellRendererParams: {
             onClicked: this.detail.bind(this),
             btnClass: 'primary',

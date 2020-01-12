@@ -81,7 +81,7 @@ func (server *Server) GetCandidateByUserId(w http.ResponseWriter, r *http.Reques
 func (server *Server) GetCandidateJobs(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
-	userId := vars["userId"]
+	userId := vars["id"]
 	if userId == "" {
 		responses.ERROR(w, http.StatusBadRequest, fmt.Errorf("El identificador del candidato es necesario"))
 		return

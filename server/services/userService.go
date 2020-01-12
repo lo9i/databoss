@@ -28,5 +28,5 @@ func (s UserServiceImpl) Get(id uint64) *domain.User {
 }
 
 func (s UserServiceImpl) FindUserByEmail(email string) *domain.User {
-	return s.Repository.FindOneUser("email = ?", email)
+	return s.Repository.FindOneUser(domain.User{Email: email})
 }

@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {GridOptions} from 'ag-grid-community';
 import {CandidatesService} from '@services';
 import {ActivatedRoute, Router} from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-candidate-detail-jobs-grid',
@@ -10,14 +11,15 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class CandidateDetailJobsGridComponent implements OnInit {
   public gridOptions: GridOptions;
+  public domLayout = 'autoHeight';
   @Input() userId: string;
 
   constructor(private route: ActivatedRoute, private router: Router, private service: CandidatesService) {
     this.gridOptions = {
       columnDefs: [
-        {headerName: 'Nombre', field: 'firstName'},
-        {headerName: 'Desde', field: 'lastName'},
-        {headerName: 'Hasta', field: 'lastName'},
+        {headerName: 'Id', field: 'name'},
+        {headerName: 'Desde', field: 'from', cellRenderer: data => moment(data.from).format('DD/MM/YYYY')},
+        {headerName: 'Hasta', field: 'to', cellRenderer: data => moment(data.to).format('DD/MM/YYYY')},
       ],
       defaultColDef: {
         resizable: true,

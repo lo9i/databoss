@@ -1,7 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {DashboardLayoutComponent} from './dashboard-layout/dashboard-layout.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {ChartsModule} from 'ng2-charts';
+import {MatCardModule, MatIconModule} from '@angular/material';
 
 
 @NgModule({
@@ -9,6 +11,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   imports: [
     CommonModule,
     FlexLayoutModule,
+    ChartsModule,
+    MatCardModule,
+    MatIconModule,
   ]
 })
-export class DashboardModule { }
+export class DashboardModule {
+}

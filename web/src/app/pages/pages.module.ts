@@ -21,6 +21,7 @@ import {DashboardModule} from '@pages/dashboard';
 import {CandidatesModule} from '@pages/candidates/candidates.module';
 import {LandingComponent} from '@pages/landing/landing.component';
 import {UnauthorizedComponent} from '@pages/unauthorized/unauthorized.component';
+import {UtilsModule} from '@utils';
 
 @NgModule({
   declarations: [NavComponent, LandingComponent, UnauthorizedComponent],
@@ -41,6 +42,7 @@ import {UnauthorizedComponent} from '@pages/unauthorized/unauthorized.component'
     MatMenuModule,
     MatInputModule,
     ReactiveFormsModule,
+    UtilsModule,
     DashboardModule,
     CandidatesModule,
   ],

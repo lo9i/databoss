@@ -11,8 +11,6 @@ import {Router} from '@angular/router';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent {
-  searchText: string;
-
   constructor(private breakpointObserver: BreakpointObserver, private auth: AuthService, private router: Router) {
 
   }
@@ -29,20 +27,5 @@ export class NavComponent {
     this.auth.logout().subscribe(success => {
       this.router.navigate(['/landing']);
     });
-  }
-
-  onKeydown(event) {
-    if (event.key === 'Enter') {
-      this.startSearch();
-    }
-  }
-
-  startSearch() {
-    if (this.router.url.startsWith('/candidate-detail')) {
-      this.router.navigateByUrl('/', {skipLocationChange: true})
-        .then(() => this.router.navigate(['/candidate-detail/' + this.searchText]));
-    } else {
-      this.router.navigate(['/candidate-detail/' + this.searchText]);
-    }
   }
 }

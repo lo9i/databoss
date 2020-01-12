@@ -1,31 +1,30 @@
 
 <div class="landing-container">
-  <mat-toolbar color="primary" class="fixed-header">
-    <span>Databoss</span>
-  </mat-toolbar>
-  <div class="unauthorized-content">
+  <div class="unauthorized-content bgimg">
 
-    <header>
-      <h1>Databoss</h1>
-      <h2>Herramientas para el una empresa exitosa!.</h2>
+    <div class="auth-block">
+      <h1>Ingrese a Databoss</h1>
+      <!--      <h2>Herramientas para el una empresa exitosa!.</h2>-->
 
-      <div class="start">
-        <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="login">
+        <form [formGroup]="loginForm" (ngSubmit)="login()" fxLayout="column">
 
-          <mat-form-field>
-            <input matInput type="text" id="username" placeholder="Nombre de Usuario" autocomplete="off" formControlName="username" required>
-          </mat-form-field>
-
-          <mat-form-field>
-            <input matInput type="password" id="password" placeholder="Clave" formControlName="password" required>
-          </mat-form-field>
-
-          <div class="actions">
-            <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Ingresar</button>
+          <div fxLayout="row" layout-align=" center">
+            <label id="username_label" for="user" fxFlex="15%" >Email</label>
+            <input matInput fxFlex="85%" name="username" type="text" id="user" formControlName="username" placeholder="Nombre de Usuario" autocomplete="off" >
+          </div>
+          <div fxLayout="row" layout-align=" center">
+            <label id="password_label" for="password" fxFlex="15%" >Clave</label>
+            <input matInput fxFlex="85%" name="password" type="password" id="password" placeholder="Clave" autocomplete="off" formControlName="password" required >
+          </div>
+          <div fxLayout="row" layout-align=" center">
+            <div fxFlex="15%"></div>
+            <button mat-raised-button color="primary" type="submit" id="submit_button" flex [disabled]="!loginForm.valid">Ingresar</button>
+            <a href="" class="forgot-pass">Forgot password?</a>
           </div>
 
         </form>
       </div>
-    </header>
+    </div>
   </div>
 </div>

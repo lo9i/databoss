@@ -23,7 +23,7 @@ func (s *JobServiceImpl) Get(id uint64) *domain.Job {
 }
 
 func (s *JobServiceImpl) FindByUserId(id uint64) *[]domain.Job {
-	return s.Repository.Find("CandidateId = ? ", id)
+	return s.Repository.Find(domain.Job{CandidateId: id})
 }
 
 func (s *JobServiceImpl) Find(where ...interface{}) *[]domain.Job {

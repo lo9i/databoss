@@ -16,10 +16,11 @@ import {CandidateDetailComponent} from '@pages/candidates/candidate-detail/candi
 import {ClickableParentComponent} from '@utils/clickable-parent/clickable-parent.component';
 import {UtilsModule} from '@utils';
 import { CandidateDetailJobsGridComponent } from './candidate-detail-jobs-grid/candidate-detail-jobs-grid.component';
+import { CandidateDetailHeaderComponent } from './candidate-detail-header/candidate-detail-header.component';
 
 
 @NgModule({
-  declarations: [CandidatesGridComponent, CandidateDetailComponent, CandidateDetailJobsGridComponent],
+  declarations: [CandidatesGridComponent, CandidateDetailComponent, CandidateDetailJobsGridComponent, CandidateDetailHeaderComponent],
   imports: [
     CommonModule,
     FormsModule,

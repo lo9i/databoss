@@ -1,1 +1,120 @@
-<p>dashboard-layout works!</p>
+<div class="page-content">
+  <!--  <content-top>-->
+  <!--    <div class="content-top clearfix"><h1 class="al-title ng-binding">Dashboard</h1>-->
+  <!--      <ul class="breadcrumb al-breadcrumb">-->
+  <!--        <li><a href="#/dashboard">Home</a></li>-->
+  <!--        <li class="ng-binding">Dashboard</li>-->
+  <!--      </ul>-->
+  <!--    </div>-->
+  <!--  </content-top>-->
+  <!-- uiView: -->
+  <div fxLayout="row" fxLayoutGap="2rem">
+<!--      <mat-card fxflex="25%">-->
+<!--        <span class="percent">{{chartsData[0].stats}}</span>-->
+<!--        <canvas-->
+<!--          baseChart-->
+<!--          [data]="[60]"-->
+<!--          [chartType]="'doughnut'">-->
+<!--        </canvas>-->
+<!--        <div class="description">-->
+<!--          <div class="">{{chartsData[0].description}}</div>-->
+<!--          <div class="description-stats">{{chartsData[0].stats}}</div>-->
+<!--        </div>-->
+<!--        <i class="chart-icon i-{{chartsData[0].icon}}"></i>-->
+<!--      </mat-card>-->
+<!--      <mat-card fxflex>-->
+<!--        <span class="percent">{{chartsData[0].stats}}</span>-->
+<!--&lt;!&ndash;        <canvas&ndash;&gt;-->
+<!--&lt;!&ndash;          baseChart&ndash;&gt;-->
+<!--&lt;!&ndash;          [data]="[60]"&ndash;&gt;-->
+<!--&lt;!&ndash;          [chartType]="'doughnut'">&ndash;&gt;-->
+<!--&lt;!&ndash;        </canvas>&ndash;&gt;-->
+<!--        <div class="description">-->
+<!--          <div class="">{{chartsData[0].description}}</div>-->
+<!--          <div class="description-stats">{{chartsData[0].stats}}</div>-->
+<!--        </div>-->
+<!--        <i class="chart-icon i-{{chartsData[0].icon}}"></i>-->
+<!--      </mat-card>-->
+<!--      <mat-card fxflex>-->
+<!--        <span class="percent">{{chartsData[0].stats}}</span>-->
+<!--&lt;!&ndash;        <canvas&ndash;&gt;-->
+<!--&lt;!&ndash;          baseChart&ndash;&gt;-->
+<!--&lt;!&ndash;          [data]="[60]"&ndash;&gt;-->
+<!--&lt;!&ndash;          [chartType]="'doughnut'">&ndash;&gt;-->
+<!--&lt;!&ndash;        </canvas>&ndash;&gt;-->
+<!--        <div class="description">-->
+<!--          <div class="">{{chartsData[0].description}}</div>-->
+<!--          <div class="description-stats">{{chartsData[0].stats}}</div>-->
+<!--        </div>-->
+<!--        <i class="chart-icon i-{{chartsData[0].icon}}"></i>-->
+<!--      </mat-card>-->
+<!--      <mat-card fxflex>-->
+<!--        <span class="percent">{{chartsData[0].stats}}</span>-->
+<!--&lt;!&ndash;        <canvas&ndash;&gt;-->
+<!--&lt;!&ndash;          baseChart&ndash;&gt;-->
+<!--&lt;!&ndash;          [data]="[60]"&ndash;&gt;-->
+<!--&lt;!&ndash;          [chartType]="'doughnut'">&ndash;&gt;-->
+<!--&lt;!&ndash;        </canvas>&ndash;&gt;-->
+<!--        <div class="description">-->
+<!--          <div class="">{{chartsData[0].description}}</div>-->
+<!--          <div class="description-stats">{{chartsData[0].stats}}</div>-->
+<!--        </div>-->
+<!--        <i class="chart-icon i-{{chartsData[0].icon}}"></i>-->
+<!--      </mat-card>-->
+  </div>
+  <div fxLayout="row" fxLayoutGap="1rem">
+    <mat-card fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+<!--          <span class="percent">{{chartsData[0].stats}}</span>-->
+              <canvas
+                baseChart
+                [data]="[60]"
+                [options]="barChartOptions"
+                [chartType]="'doughnut'">
+              </canvas>
+              <div class="description">
+                <div class="">{{chartsData[0].description}}</div>
+                <div class="description-stats">{{chartsData[0].stats}}</div>
+              </div>
+      <mat-icon>{{chartsData[0].icon}}</mat-icon>
+    </mat-card>
+    <mat-card fxFlex fxLayout="row">
+      <span class="percent">{{chartsData[0].stats}}</span>
+      <canvas
+        baseChart
+        [data]="[60]"
+        [chartType]="'doughnut'">
+      </canvas>
+      <div class="description">
+        <div class="">{{chartsData[0].description}}</div>
+        <div class="description-stats">{{chartsData[0].stats}}</div>
+      </div>
+      <mat-icon>{{chartsData[0].icon}}</mat-icon>
+    </mat-card>
+    <mat-card fxFlex fxLayout="row">
+      <span class="percent">{{chartsData[0].stats}}</span>
+      <canvas
+        baseChart
+        [data]="[60]"
+        [chartType]="'doughnut'">
+      </canvas>
+      <div class="description">
+        <div class="">{{chartsData[0].description}}</div>
+        <div class="description-stats">{{chartsData[0].stats}}</div>
+      </div>
+      <mat-icon>{{chartsData[0].icon}}</mat-icon>
+    </mat-card>
+    <mat-card fxFlex fxLayout="row">
+      <span class="percent">{{chartsData[0].stats}}</span>
+      <canvas
+        baseChart
+        [data]="[60]"
+        [chartType]="'doughnut'">
+      </canvas>
+      <div class="description">
+        <div class="">{{chartsData[0].description}}</div>
+        <div class="description-stats">{{chartsData[0].stats}}</div>
+      </div>
+      <mat-icon>{{chartsData[0].icon}}</mat-icon>
+    </mat-card>
+  </div>
+</div>

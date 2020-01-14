@@ -23,22 +23,27 @@ func (s *CandidateServiceImpl) Get(id uint64) *domain.Candidate {
 	return s.Repository.Get(id)
 }
 
-func (s *CandidateServiceImpl) GetByUserId(userId string) *domain.Candidate {
+func (s *CandidateServiceImpl) GetByUserId(userId string) (*domain.Candidate, error) {
 	candidate := s.Repository.GetByUserId(userId)
 	if candidate.Id <= 0 {
-		candidate = s.CreateCandidate(userId)
+		var err error
+		candidate, err = s.CreateCandidate(userId)
+		if err != nil {
+			return nil, err
+		}
 	}
-	return candidate
+	return candidate, nil
 }
 
-func (s *CandidateServiceImpl) CreateCandidate(userId string) *domain.Candidate {
+func (s *CandidateServiceImpl) CreateCandidate(userId string) (*domain.Candidate, error) {
 	nosisResponse, err := s.NosisService.Get(userId)
 	if err != nil {
-		return &domain.Candidate{}
+		return nil, err
 	}
+
 	b, err := json.Marshal(nosisResponse)
 	if err != nil {
-		return &domain.Candidate{}
+		return nil, err
 	}
 
 	candidate := &domain.Candidate{UserId: userId}
@@ -47,7 +52,7 @@ func (s *CandidateServiceImpl) CreateCandidate(userId string) *domain.Candidate 
 	nosisUser := domain.NosisUser{Raw: string(b), CandidateId: candidate.Id}
 	s.NosisRepository.Insert(&nosisUser)
 
-	return candidate
+	return candidate, nil
 }
 
 func populateCandidate(nosisCandidate *domain.NosisResponse, candidate *domain.Candidate) {

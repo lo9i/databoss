@@ -74,7 +74,11 @@ func (server *Server) GetCandidateByUserId(w http.ResponseWriter, r *http.Reques
 		responses.ERROR(w, http.StatusBadRequest, fmt.Errorf("El identificador del candidato es necesario"))
 		return
 	}
-	candidate := server.CandidateService.GetByUserId(userId)
+	candidate, err := server.CandidateService.GetByUserId(userId)
+	if err != nil {
+		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
 	responses.JSON(w, http.StatusOK, candidate)
 }
 

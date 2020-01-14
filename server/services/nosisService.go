@@ -23,7 +23,16 @@ func (c *NosisServiceImpl) Get(id string) (*domain.NosisResponse, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	var user domain.NosisResponse
-	err = json.NewDecoder(resp.Body).Decode(&user)
-	return &user, err
+
+	var nResp domain.NosisResponse
+	err = json.NewDecoder(resp.Body).Decode(&nResp)
+	if err != nil {
+		return nil, err
+	}
+
+	if nResp.Contenido.Resultado.Estado != 200 {
+		return nil, fmt.Errorf("%v", nResp.Contenido.Resultado.Novedad)
+	}
+
+	return &nResp, err
 }

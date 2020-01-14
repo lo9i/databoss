@@ -23,7 +23,11 @@ export class CandidateDetailComponent implements OnInit {
       this.service.getCandidateByUserId(this.candidateId).
       subscribe(data => {
         this.candidate = data;
-      });
+      },
+        (error) => {
+         console.log(error);
+          // throw error;
+        });
     });
   }
 }

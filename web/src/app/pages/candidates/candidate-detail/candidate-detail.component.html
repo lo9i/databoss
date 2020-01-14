@@ -3,3 +3,6 @@
 <app-candidate-detail-header [candidate]="candidate"></app-candidate-detail-header>
 <app-candidate-detail-jobs-grid [userId]="candidate.id"></app-candidate-detail-jobs-grid>
 </div>
+<div fxLayout="column" fxLayoutGap="1rem" class="grid-container" *ngIf="!candidate">
+  No se encontro el cuil/cuit provisto. Verifique el mismo e intente nuevamente
+</div>

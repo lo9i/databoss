@@ -20,8 +20,7 @@ type Candidate struct {
 	ZipCode    string `gorm:"size:10;null" json:"zipCode,omitempty"`
 	State      string `gorm:"size:255;null" json:"state,omitempty"`
 
-	Email      string `gorm:"size:255;null" json:"state,omitempty"`
-
+	Email string `gorm:"size:255;null" json:"state,omitempty"`
 
 	Jobs            []*Job    `gorm:"foreignkey:CandidateId" json:"jobs,omitempty"`
 	BirthDate       time.Time `gorm:"not null" json:"birthDate"`
@@ -37,7 +36,7 @@ type CandidateService interface {
 	 */
 	Get(id uint64) *Candidate
 
-	GetByUserId(userId string) *Candidate
+	GetByUserId(userId string) (*Candidate, error)
 
 	/*
 	 * Get list of users by some criteria

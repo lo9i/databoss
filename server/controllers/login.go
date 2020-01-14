@@ -7,6 +7,7 @@ import (
 	"github.com/lo9i/databoss/server/domain"
 	"github.com/lo9i/databoss/server/responses"
 	"github.com/lo9i/databoss/server/utils/formaterror"
+	"golang.org/x/crypto/bcrypt"
 	"io/ioutil"
 	"net/http"
 )
@@ -47,10 +48,13 @@ func (server *Server) SignIn(email, password string) (map[string]string, error) 
 		return nil, fmt.Errorf("Verifique las credenciales provistas.")
 	}
 
+	//pass, err := domain.Hash(password)
+	//fmt.Errorf("%v", pass)
 	//err = domain.VerifyPassword(user.Password, password)
-	//if err != nil && err == bcrypt.ErrMismatchedHashAndPassword {
-	//	return "", err
-	//}
+	err := domain.VerifyPassword(user.Password, password)
+	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword {
+		return nil, err
+	}
 	return auth.CreateToken(user.Id)
 }
 
